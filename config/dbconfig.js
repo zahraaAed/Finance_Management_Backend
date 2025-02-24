@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config(); 
 
 const sequelize = new Sequelize('Finance_Management', 'root', '', {
-    dialect: 'mariadb',  // Change 'mysql' to 'mariadb'
+    dialect: 'mysql',  
     host: 'localhost',
     port: process.env.PORT ? Number(process.env.PORT) : 3306,
     logging: console.log,
