@@ -3,6 +3,15 @@ import sequilize from './config/dbconfig.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import db from "./config/dbconfig.js";
+import userRoute from "./Routes/userRoute.js";
+import loginRoute from "./Routes/loginRoute.js";
+import reportRoute from "./Routes/reportRoute.js";
+import profitGoalRoute from "./Routes/profitGoalRoute.js";
+
+
+
+
+
 
 dotenv.config();
 const app = express();
@@ -18,9 +27,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors("*"));
 
+//routes
 app.get('/',(req,res)=>{
     res.send("hello world")
    })
+app.use("/api/user", userRoute);
+app.use("/api/login", loginRoute);
+app.use("/api/reports", reportRoute);
+app.use("/api/profitGoal", profitGoalRoute);
+
+
+
+
 
    //server
 
