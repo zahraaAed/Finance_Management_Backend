@@ -21,8 +21,8 @@ export const createReport=async(req,res)=>{
 //get all report
 export const getAllReports = async (req, res) => { 
     try {
-        const reports = await Report.findAll();
-        res.json(reports);
+        const getReports = await Report.findAll();
+        res.json(getReports);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
@@ -33,11 +33,11 @@ export const getAllReports = async (req, res) => {
 export const getReportById=async(req,res)=>{
     const{id}=req.params;
     try{
-        const report=await Report.findOne({where: {id}});
-        if (!report) {
+        const getReport=await Report.findOne({where: {id}});
+        if (!getReport) {
             return res.status(404).json({ message: 'Report not found' });
         }
-        res.status(200).json(report);
+        res.status(200).json(getReport);
     }
     catch(error){
         console.log(error);
@@ -68,16 +68,32 @@ export const getReportByUserId=async(req,res)=>{
 export const deleteReport = async (req, res) => {
   try {
     const { id } = req.params;
-    const report = await Report.findByPk(id);
+    const deletedReport = await Report.findByPk(id);
 
     if (!report) {
       return res.status(404).json({ message: 'Report not found' });
     }
 
-    await report.destroy();
+    await deletedReport.destroy();
     res.status(200).json({ message: 'Report deleted successfully' });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+
+//edit
+export const updateReport = async (req,res) =>{
+  const {id} = req.params;
+  try{
+      if(req.body){
+          const editReport=await Report.update({...req.body},{where:{id}});
+          return res.status(200).json({message:`report updated successfully!`,editProfitGoal});
+      }
+      res.status(400).json({message:'something went wrong'})
+
+  }catch(err){console.error(err);
+  }
+
+}
