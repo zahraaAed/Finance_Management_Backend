@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize';
-import db from '../config/dbconfig.js';
+const { DataTypes } = require('sequelize');
+const db = require('../config/dbconfig.js');
 
-const profitGoal=db.define('profitgoal', {
+const profitGoal = db.define('profitgoal', {
     goalName: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -14,7 +14,7 @@ const profitGoal=db.define('profitgoal', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            isIn: [['USD', 'EUR', 'GBP', 'INR', 'LB']], 
+            isIn: [['USD', 'EUR', 'GBP', 'INR', 'LB']],
         },
     },
     actualProfit: {
@@ -26,8 +26,9 @@ const profitGoal=db.define('profitgoal', {
         allowNull: false,
     },
     status: {
-        type: DataTypes.ENUM('Pending', 'Achieved', 'Missed'), 
+        type: DataTypes.ENUM('Pending', 'Achieved', 'Missed'),
         defaultValue: 'Pending',
     },
-})
-export default profitGoal
+});
+
+module.exports = profitGoal;
