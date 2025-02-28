@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/dbconfig.js');
 
-const User = db.define('user', {
+const superAdmin= db.define('user', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -12,16 +12,7 @@ const User = db.define('user', {
     allowNull: false,
     unique: true,
   },
-  firstName: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    unique: false,
-  },
-  lastName: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    unique: false,
-  },
+
   password: {
     type: DataTypes.STRING(255),
     allowNull: false,
@@ -29,10 +20,10 @@ const User = db.define('user', {
   role: {
     type: DataTypes.STRING(255),
     allowNull: false,
-    defaultValue: 'admin',
+    defaultValue: 'superadmin',
   },
 });
 
-User.sync();
+superAdmin.sync();
 
-module.exports = User;
+module.exports = superAdmin;

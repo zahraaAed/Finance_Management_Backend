@@ -1,13 +1,20 @@
-import express from "express";
-import {  deleteAdmin, getAdminById, getAdmins, getAllAdmins, getAllSuperAdmins, getSuperAdminById} from "../Controllers/userController.js"
+const express = require("express");
+const {  
+    deleteAdmin, 
+    getAdminById, 
+    getAdmins, 
+    getAllAdmins,
+    createUser, 
+ 
+} = require("../Controllers/userController.js");
+const { verifyToken, isSuperAdmin } = require("../Middleware/auth.js");
 
 const router = express.Router();
-
+router.post("/add", createUser);
 router.get("/users", getAllAdmins);
 router.get('/admin/:id', getAdminById);
-router.delete('/admin/:id', deleteAdmin);
-router.get('/admin', getAdmins)
-router.get('/superadmins', getAllSuperAdmins)
-router.get('/superadmin/:id', getSuperAdminById)
+router.delete("/delete-admin/:id", verifyToken, isSuperAdmin, deleteAdmin);
+router.get('/admin', getAdmins);
 
-export default router;
+
+module.exports = router;
