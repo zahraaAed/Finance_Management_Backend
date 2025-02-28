@@ -7,7 +7,7 @@ const {
 
 const router = express.Router();
 
-/* router.post("/add/superadmin", createsuperAdmin); */
+router.post("/add/superadmin", createsuperAdmin);
 router.get('/superadmins', getAllSuperAdmins);
 router.get('/superadmin/:id', getSuperAdminById);
 
