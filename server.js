@@ -8,6 +8,8 @@ const loginRoute = require("./Routes/loginRoute.js");
 const superAdminRoute =require("./Routes/superAdminRoute.js");
 const profitGoalRoute = require("./Routes/profitGoalRoute.js");
 const incomeRoute=require("./Routes/incomeRoutes.js");
+const fixedIncomeRoutes = require('./Routes/fixedIncomeRoutes.js');
+const recurringIncomeRoutes = require('./Routes/recurringIncomeRoutes');
 
 dotenv.config();
 const app = express();
@@ -29,8 +31,8 @@ app.use("/api/user", userRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/superAdmin",superAdminRoute);
 app.use("/api/profitGoal", profitGoalRoute);
-app.use("/api/income", incomeRoute);
-
+app.use('/api', fixedIncomeRoutes);
+app.use('/api', recurringIncomeRoutes);
 
 // Server
 app.listen(port, () => {
