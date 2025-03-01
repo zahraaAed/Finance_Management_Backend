@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/dbconfig.js');
-const Category = require('./categoryModel');
+const Category = require('./categoryModel.js');
 
 const RecurringExpense = db.define('RecurringExpense', {
     title: {
