@@ -1,4 +1,4 @@
-const FixedIncome = require('../Models/FixedIncome');
+const FixedIncome = require('../Models/fixedincomeModel');
 const Category = require('../Models/categoryModel');
 
 // Add Fixed Income

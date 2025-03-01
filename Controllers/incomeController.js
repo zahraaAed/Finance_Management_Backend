@@ -1,4 +1,4 @@
-const FixedIncome = require("../Models/FixedIncome");
+const FixedIncome = require("../Models/fixedincomeModel");
 const RecurringIncome = require("../Models/RecurringIncome");
 
 // ✅ Add Income (Fixed or Recurring)
