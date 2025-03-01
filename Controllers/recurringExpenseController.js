@@ -1,5 +1,5 @@
 const RecurringExpense = require('../Models/RecurringExpense');
-const Category = require('../models/Category');
+const Category = require('../Models/categoryModel');
 
 const addRecurringExpense = async (req, res) => {
     try {
@@ -44,4 +44,33 @@ const addRecurringExpense = async (req, res) => {
     }
 };
 
-module.exports = { addRecurringExpense };
+// Get all recurring expenses
+const getAllRecurringExpenses = async (req, res) => {
+    try {
+        const recurringExpenses = await RecurringExpense.findAll({ include: Category });
+        return res.status(200).json({ data: recurringExpenses });
+    } catch (error) {
+        console.error('Error fetching recurring expenses:', error);
+        return res.status(500).json({ error: 'Internal server error.' });
+    }
+};
+
+// Delete a recurring expense by ID
+const deleteRecurringExpense = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const recurringExpense = await RecurringExpense.findByPk(id);
+        if (!recurringExpense) {
+            return res.status(404).json({ error: 'Recurring expense not found.' });
+        }
+
+        await recurringExpense.destroy();
+        return res.status(200).json({ message: 'Recurring expense deleted successfully.' });
+    } catch (error) {
+        console.error('Error deleting recurring expense:', error);
+        return res.status(500).json({ error: 'Internal server error.' });
+    }
+};
+
+module.exports = { addRecurringExpense, getAllRecurringExpenses, deleteRecurringExpense };

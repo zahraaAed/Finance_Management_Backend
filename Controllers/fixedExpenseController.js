@@ -38,4 +38,33 @@ const addFixedExpense = async (req, res) => {
     }
 };
 
-module.exports = { addFixedExpense };
+// Get all fixed expenses
+const getAllFixedExpenses = async (req, res) => {
+    try {
+        const fixedExpenses = await FixedExpense.findAll({ include: Category });
+        return res.status(200).json({ data: fixedExpenses });
+    } catch (error) {
+        console.error('Error fetching fixed expenses:', error);
+        return res.status(500).json({ error: 'Internal server error.' });
+    }
+};
+
+// Delete a fixed expense by ID
+const deleteFixedExpense = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const fixedExpense = await FixedExpense.findByPk(id);
+        if (!fixedExpense) {
+            return res.status(404).json({ error: 'Fixed expense not found.' });
+        }
+
+        await fixedExpense.destroy();
+        return res.status(200).json({ message: 'Fixed expense deleted successfully.' });
+    } catch (error) {
+        console.error('Error deleting fixed expense:', error);
+        return res.status(500).json({ error: 'Internal server error.' });
+    }
+};
+
+module.exports = { addFixedExpense, getAllFixedExpenses, deleteFixedExpense };
