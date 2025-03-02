@@ -4,14 +4,13 @@ const jwt = require("jsonwebtoken");
 
 // 1 - Add user (admin/superadmin)
 exports.createUser = async (req, res) => {
-  const { email, firstName, lastName, password, role } = req.body;
+  const { email, userName,password, role = "admin" } = req.body;
 
   try {
     const newAdmin = await User.create({
       email,
       password: await bcrypt.hash(password, 15),
-      firstName,
-      lastName,
+      userName,
       role,
     });
 
@@ -51,21 +50,40 @@ exports.getAdminById = async (req, res) => {
 };
 
 // 4 - Delete user (admin role)
+
+
 exports.deleteAdmin = async (req, res) => {
   const { id } = req.params;
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(403).json({ message: "Access denied. No token provided." });
+  }
 
   try {
-    const result = await User.destroy({ where: { id: id, role: "admin" } });
-    if (result === 0) {
-      return res.status(404).json({ message: "User not found" });
+    // Extract token
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Check if the requester is a superadmin
+    if (decoded.role !== "superadmin") {
+      return res.status(403).json({ message: "Access denied. Only superadmins can delete admins." });
     }
 
-    res.status(200).json({ message: "User deleted successfully" });
+    // Find and delete the admin user
+    const result = await User.destroy({ where: { id: id, role: "admin" } });
+
+    if (result === 0) {
+      return res.status(404).json({ message: "Admin not found or cannot be deleted." });
+    }
+
+    res.status(200).json({ message: "Admin deleted successfully." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong!", error: error.message });
   }
 };
+
 
 // 5 - Get all admins
 exports.getAdmins = async (req, res) => {
@@ -101,6 +119,8 @@ exports.signInUser = async (req, res) => {
 
     // Authenticate user with JWT
     const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET);
+    console.log('JWT_SECRET:', process.env.JWT_SECRET);  // Debugging line
+
 
     res.status(200).json({
       id: user.id,

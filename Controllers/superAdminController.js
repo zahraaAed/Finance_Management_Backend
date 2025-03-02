@@ -1,6 +1,6 @@
-const superAdmin = require('../Models/superadminModel'); // CommonJS import
+const superAdmin = require('../Models/superadminModel.js');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken'); // Assuming you're using JWT for token generation
+const jwt = require('jsonwebtoken'); 
 
 // 6 - Get all superadmins
 exports.getAllSuperAdmins = async (req, res) => {
@@ -36,25 +36,25 @@ exports.getSuperAdminById = async (req, res) => {
 exports.signInsuperAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const superAdmin = await superAdmin.findOne({ where: { email } });
+    const admin = await superAdmin.findOne({ where: { email } });
 
-    if (!superAdmin) {
+    if (!admin) {
       return res.status(404).json({ message: "Incorrect email or password" });
     }
 
     // Verify password
-    const passwordValid = await bcrypt.compare(password, superAdmin.password);
+    const passwordValid = await bcrypt.compare(password, admin.password);
     if (!passwordValid) {
       return res.status(401).json({ message: "Incorrect email or password" });
     }
 
     // Authenticate superAdmin with JWT
-    const token = jwt.sign({ id: superAdmin.id, role: superAdmin.role }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: admin.id, role: admin.role }, process.env.JWT_SECRET);
 
     res.status(200).json({
-      id: superAdmin.id,
-      email: superAdmin.email,
-      role: superAdmin.role,
+      id: admin.id,
+      email: admin.email,
+      role: admin.role,
       accessToken: token,
     });
   } catch (err) {
@@ -63,15 +63,15 @@ exports.signInsuperAdmin = async (req, res) => {
   }
 };
 
+//9- create super admin
 exports.createsuperAdmin = async (req, res) => {
-  const { email, firstName, lastName, password, role } = req.body;
+  const { email, password, role="superadmin" } = req.body;
 
   try {
     const newAdmin = await superAdmin.create({
       email,
       password: await bcrypt.hash(password, 15),
-      firstName,
-      lastName,
+
       role,
     });
 

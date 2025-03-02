@@ -6,7 +6,7 @@ dotenv.config();
 const sequelize = new Sequelize('Finance_Management', 'root', '', {
   dialect: 'mysql',
   host: 'localhost',
-  port: process.env.PORT ? Number(process.env.PORT) : 3306,
+  port:3306,
   logging: console.log,
 });
 
