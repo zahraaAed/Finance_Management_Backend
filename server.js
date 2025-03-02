@@ -11,6 +11,7 @@ const fixedIncomeRoutes = require('./Routes/fixedIncomeRoutes.js');
 const recurringIncomeRoutes = require('./Routes/recurringIncomeRoutes');
 const fixedexpenseRoute= require('./Routes/fixedexpenseRoute.js');
 const recurringexpenseRoute = require('./Routes/recurringexpenseRoute.js');
+const categoryRoutes = require('./Routes/categoryRoutes');
 
 dotenv.config();
 const app = express();
@@ -36,6 +37,8 @@ app.use('/api', fixedIncomeRoutes);
 app.use('/api', recurringIncomeRoutes);
 app.use('/api', fixedexpenseRoute);
 app.use('/api', recurringexpenseRoute);
+app.use('/api', categoryRoutes);
+
 
 
 
