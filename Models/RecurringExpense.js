@@ -28,9 +28,6 @@ const RecurringExpense = db.define('RecurringExpense', {
     endDate: {
         type: DataTypes.DATE,
         allowNull: false,
-        validate: {
-            isAfter: Sequelize.col('startDate'),
-        },
     },
 });
 

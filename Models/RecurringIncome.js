@@ -18,21 +18,29 @@ const RecurringIncome = db.define('RecurringIncome', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            isIn: [['USD', 'EUR', 'GBP', 'INR', 'LBP']],
+            isIn: [['USD', 'EUR', 'GBP', 'INR', 'LBP']],  // You can adjust this to your needs
         },
     },
     startDate: {
         type: DataTypes.DATE,
         allowNull: false,
+        set(value) {
+            this.setDataValue('startDate', new Date(value));  // Ensure it's stored as a Date
+        },
     },
     endDate: {
         type: DataTypes.DATE,
         allowNull: false,
-        validate: {
-            isAfter: Sequelize.col('startDate'),
+        set(value) {
+            this.setDataValue('endDate', new Date(value));  // Ensure it's stored as a Date
         },
     },
 });
 
-RecurringIncome.belongsTo(Category);
+// Define relationship
+RecurringIncome.belongsTo(Category, {
+    foreignKey: 'categoryId',  // Explicitly define the foreign key
+});
+
+// Export the model
 module.exports = RecurringIncome;

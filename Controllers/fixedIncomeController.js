@@ -21,6 +21,7 @@ const addFixedIncome = async (req, res) => {
         if (new Date(date) > new Date()) {
             return res.status(400).json({ error: 'Date cannot be in the future.' });
         }
+       
 
         // Create FixedIncome entry
         const fixedIncome = await FixedIncome.create({
