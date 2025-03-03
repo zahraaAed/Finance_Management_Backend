@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { addRecurringExpense, getAllRecurringExpenses, deleteRecurringExpense } = require('../Controllers/recurringExpenseController');
+const { addRecurringExpense, getAllRecurringExpenses, deleteRecurringExpense } = require('../Controllers/recurringExpenseController.js');
 
 // Route to add a new recurring expense
 router.post('/recurring-expenses', addRecurringExpense);

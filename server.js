@@ -10,6 +10,10 @@ const profitGoalRoute = require("./Routes/profitGoalRoute.js");
 const incomeRoute=require("./Routes/incomeRoutes.js");
 const fixedIncomeRoutes = require('./Routes/fixedIncomeRoutes.js');
 const recurringIncomeRoutes = require('./Routes/recurringIncomeRoutes');
+const fixedexpenseRoute=require("./Routes/fixedexpenseRoute.js");
+const recurringexpenseRoute=require("./Routes/recurringexpenseRoute.js");
+const reportRoute=require("./Routes/reportRoute.js");
+require('./relations');
 
 dotenv.config();
 const app = express();
@@ -18,6 +22,15 @@ const app = express();
 const port = process.env.PORT || 4000;
 sequelize.sync();
 
+
+// Sync the database models
+db.sync({ alter: true })
+  .then(() => {
+    console.log('Database schema synchronized!');
+  })
+  .catch((err) => {
+    console.error('Error syncing database schema:', err);
+  });
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,8 +44,11 @@ app.use("/api/user", userRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/superAdmin",superAdminRoute);
 app.use("/api/profitGoal", profitGoalRoute);
-app.use('/api', fixedIncomeRoutes);
-app.use('/api', recurringIncomeRoutes);
+app.use('/api/fixedIncome', fixedIncomeRoutes);
+app.use('/api/recuringIncome', recurringIncomeRoutes);
+app.use('/api/fixedExpense', fixedexpenseRoute);
+app.use ('/api/recuringExpense', recurringexpenseRoute);
+app.use('/api/report', reportRoute)
 
 // Server
 app.listen(port, () => {

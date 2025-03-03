@@ -1,5 +1,5 @@
-const FixedExpense = require('../Models/FixedExpense');
-const Category = require('../models/Category');
+const FixedExpense = require('../Models/FixedExpense.js');
+const Category = require('../Models/categoryModel.js');
 
 const addFixedExpense = async (req, res) => {
     try {
