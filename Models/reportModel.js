@@ -23,6 +23,7 @@ const Report = db.define('report', {
     allowNull: false,
     defaultValue: 'monthly',
   },
+  
 });
 
 User.hasMany(Report);

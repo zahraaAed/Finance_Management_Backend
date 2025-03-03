@@ -12,6 +12,7 @@ const fixedIncomeRoutes = require('./Routes/fixedIncomeRoutes.js');
 const recurringIncomeRoutes = require('./Routes/recurringIncomeRoutes');
 const fixedexpenseRoute=require("./Routes/fixedexpenseRoute.js");
 const recurringexpenseRoute=require("./Routes/recurringexpenseRoute.js");
+const Category=require('./Models/categoryModel.js');
 const reportRoute=require("./Routes/reportRoute.js");
 require('./relations');
 
@@ -48,7 +49,8 @@ app.use('/api/fixedIncome', fixedIncomeRoutes);
 app.use('/api/recuringIncome', recurringIncomeRoutes);
 app.use('/api/fixedExpense', fixedexpenseRoute);
 app.use ('/api/recuringExpense', recurringexpenseRoute);
-app.use('/api/report', reportRoute)
+app.use('/api/report', reportRoute);
+app.use('/api/category', Category)
 
 // Server
 app.listen(port, () => {
