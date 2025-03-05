@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { addFixedExpense, getAllFixedExpenses, deleteFixedExpense } = require('../Controllers/fixedExpenseController');
+const { addFixedExpense, getAllFixedExpenses, deleteFixedExpense } = require('../Controllers/fixedExpenseController.js');
 
 // Route to add a new fixed expense
 router.post('/addfixed-expenses', addFixedExpense);//done

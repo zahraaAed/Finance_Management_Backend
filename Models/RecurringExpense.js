@@ -1,4 +1,4 @@
-const { DataTypes, Sequelize} = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize'); // Include Sequelize
 const db = require('../config/dbconfig.js');
 const Category = require('./categoryModel.js');
 
@@ -28,8 +28,14 @@ const RecurringExpense = db.define('RecurringExpense', {
     endDate: {
         type: DataTypes.DATE,
         allowNull: false,
+        validate: {
+            isAfter: Sequelize.col('startDate'), // Now Sequelize is properly defined
+        },
     },
 });
 
+// Sync and set associations
+RecurringExpense.sync();
 RecurringExpense.belongsTo(Category);
+
 module.exports = RecurringExpense;

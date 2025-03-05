@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../config/dbconfig.js');
 
-const profitGoal = db.define('profitgoal', {
+const ProfitGoal = db.define('profitgoal', {
     goalName: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -31,4 +31,4 @@ const profitGoal = db.define('profitgoal', {
     },
 });
 
-module.exports = profitGoal;
+module.exports = ProfitGoal;

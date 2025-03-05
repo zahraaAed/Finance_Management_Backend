@@ -1,5 +1,5 @@
-const RecurringIncome = require('../Models/RecurringIncome');
-const Category = require('../Models/categoryModel');
+const RecurringIncome = require('../Models/RecurringIncome.js');
+const Category = require('../Models/categoryModel.js');
 
 const addRecurringIncome = async (req, res) => {
     try {

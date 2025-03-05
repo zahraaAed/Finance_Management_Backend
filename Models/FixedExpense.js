@@ -1,6 +1,7 @@
 const { DataTypes} = require('sequelize');
 const db = require('../config/dbconfig.js');
 const Category = require('./categoryModel');
+const Report=require('./reportModel.js');
 
 const FixedExpense = db.define('FixedExpense', {
     title: {
@@ -25,7 +26,16 @@ const FixedExpense = db.define('FixedExpense', {
         type: DataTypes.DATE,
         allowNull: false,
     },
-});
+    
+    });
+    
+    // Define relationships (these are needed to link models together)
+ 
+
+
+
+FixedExpense.sync();
 
 FixedExpense.belongsTo(Category);
+FixedExpense.belongsTo(Report);
 module.exports = FixedExpense;

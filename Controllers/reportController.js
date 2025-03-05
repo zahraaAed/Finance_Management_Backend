@@ -1,15 +1,18 @@
 const Report = require("../Models/reportModel.js");
+const superAdmin = require("../Models/superadminModel.js");
 
 // Create report
 const createReport = async (req, res) => {
   const { type, startDate, endDate } = req.body;
   const user_id = req.user.id; 
+  const superAdmin_id=req.superAdmin.id;
   try {
     const newReport = await Report.create({
       type,
       startDate,
       endDate,
-      user_id  
+      user_id,
+      superAdmin_id  
     });
     res.status(201).json(newReport);
   } catch (error) {

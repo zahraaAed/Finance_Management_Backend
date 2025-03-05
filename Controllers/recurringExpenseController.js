@@ -1,5 +1,5 @@
-const RecurringExpense = require('../Models/RecurringExpense');
-const Category = require('../Models/categoryModel');
+const RecurringExpense = require('../Models/RecurringExpense.js');
+const Category = require('../Models/categoryModel.js');
 
 const addRecurringExpense = async (req, res) => {
     try {
@@ -7,7 +7,7 @@ const addRecurringExpense = async (req, res) => {
 
         // Validate required fields
         if (!title || !amount || !currency || !startDate || !endDate || !categoryId) {
-            return res.status(400).json({ error: 'All required fields must be provided.' });
+            return res.status(400).json({ error: ':All required fields must be provided.' });
         }
 
         // Ensure category exists
