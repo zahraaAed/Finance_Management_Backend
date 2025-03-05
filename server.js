@@ -7,7 +7,6 @@ const userRoute = require("./Routes/userRoute.js");
 const loginRoute = require("./Routes/loginRoute.js");
 const superAdminRoute =require("./Routes/superAdminRoute.js");
 const profitGoalRoute = require("./Routes/profitGoalRoute.js");
-const incomeRoute=require("./Routes/incomeRoutes.js");
 const fixedIncomeRoutes = require('./Routes/fixedIncomeRoutes.js');
 const recurringIncomeRoutes = require('./Routes/recurringIncomeRoutes');
 const fixedexpenseRoute=require("./Routes/fixedexpenseRoute.js");
@@ -50,7 +49,7 @@ app.use('/api/recuringIncome', recurringIncomeRoutes);
 app.use('/api/fixedExpense', fixedexpenseRoute);
 app.use ('/api/recuringExpense', recurringexpenseRoute);
 app.use('/api/report', reportRoute);
-app.use('/api/category', Category)
+app.use('/api/category', Category);
 
 // Server
 app.listen(port, () => {

@@ -26,6 +26,7 @@ const addFixedIncome = async (req, res) => {
         if (new Date(endDate) <= new Date(startDate)) {
             return res.status(400).json({ error: 'End date must be after start date.' });
         }
+       
 
         // Create FixedIncome entry
         const fixedIncome = await FixedIncome.create({
