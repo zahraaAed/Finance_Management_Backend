@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize'); // Include Sequelize
 const db = require('../config/dbconfig.js');
 const Category = require('./categoryModel');
 
@@ -21,10 +21,17 @@ const FixedIncome = db.define('FixedIncome', {
             isIn: [['USD', 'EUR', 'GBP', 'INR', 'LBP']],
         },
     },
-    date: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
+     startDate: {
+           type: DataTypes.DATE,
+           allowNull: false,
+       },
+       endDate: {
+           type: DataTypes.DATE,
+           allowNull: false,
+           validate: {
+               isAfter: Sequelize.col('startDate'), // Now Sequelize is properly defined
+           }
+        },
 });
 
 FixedIncome.belongsTo(Category);

@@ -4,10 +4,10 @@ const Category = require('../Models/categoryModel');
 // Add Fixed Income
 const addFixedIncome = async (req, res) => {
     try {
-        const { title, description, amount, currency, date, categoryId } = req.body;
+        const { title, description, amount, currency, startDate, endDate, categoryId } = req.body;
 
         // Validate required fields
-        if (!title || !amount || !currency || !date || !categoryId) {
+        if (!title || !amount || !currency || !startDate || !endDate || !categoryId) {
             return res.status(400).json({ error: 'All required fields must be provided.' });
         }
 
@@ -18,8 +18,13 @@ const addFixedIncome = async (req, res) => {
         }
 
         // Ensure the date is not in the future
-        if (new Date(date) > new Date()) {
-            return res.status(400).json({ error: 'Date cannot be in the future.' });
+        if (new Date(startDate) > new Date()) {
+            return res.status(400).json({ error: 'Start date cannot be in the future.' });
+        }
+
+        // Ensure endDate is after startDate
+        if (new Date(endDate) <= new Date(startDate)) {
+            return res.status(400).json({ error: 'End date must be after start date.' });
         }
 
         // Create FixedIncome entry
@@ -28,7 +33,7 @@ const addFixedIncome = async (req, res) => {
             description,
             amount,
             currency,
-            date,
+            startDate, endDate,
             categoryId,
         });
 
@@ -39,16 +44,31 @@ const addFixedIncome = async (req, res) => {
     }
 };
 
-// Get all Fixed Incomes
 const getAllFixedIncomes = async (req, res) => {
     try {
-        const fixedIncomes = await FixedIncome.findAll({ include: Category });
+        // Check if FixedIncome model is defined and Category is properly included
+        console.log('Attempting to fetch Fixed Incomes with Category inclusion...');
+        
+        // Ensure models are properly defined and the association is set correctly
+        const fixedIncomes = await FixedIncome.findAll({ 
+            include: Category 
+        });
+        
+        // Log data before sending response
+        console.log('Fetched Fixed Incomes:', fixedIncomes);
+
+        // Return the response with the fetched data
         return res.status(200).json({ data: fixedIncomes });
     } catch (error) {
-        console.error('Error fetching fixed incomes:', error);
-        return res.status(500).json({ error: 'Internal server error.' });
+        // Log more detailed error message
+        console.error('Error fetching fixed incomes:', error.message);
+        console.error('Error stack:', error.stack);
+
+        // Send detailed error message to the client
+        return res.status(500).json({ error: 'Internal server error.', details: error.message });
     }
 };
+
 
 // Delete a Fixed Income by ID
 const deleteFixedIncome = async (req, res) => {
