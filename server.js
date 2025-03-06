@@ -11,7 +11,7 @@ const fixedIncomeRoutes = require('./Routes/fixedIncomeRoutes.js');
 const recurringIncomeRoutes = require('./Routes/recurringIncomeRoutes');
 const fixedexpenseRoute=require("./Routes/fixedexpenseRoute.js");
 const recurringexpenseRoute=require("./Routes/recurringexpenseRoute.js");
-const Category=require('./Models/categoryModel.js');
+const Category=require('./Routes/categoryRoutes.js');
 const reportRoute=require("./Routes/reportRoute.js");
 require('./relations');
 
@@ -19,7 +19,7 @@ dotenv.config();
 const app = express();
 
 // Port
-const port = process.env.PORT || 4000;
+const port = process.env.PORT;
 sequelize.sync();
 
 

@@ -47,28 +47,31 @@ const addFixedIncome = async (req, res) => {
 
 const getAllFixedIncomes = async (req, res) => {
     try {
-        // Check if FixedIncome model is defined and Category is properly included
         console.log('Attempting to fetch Fixed Incomes with Category inclusion...');
-        
-        // Ensure models are properly defined and the association is set correctly
+
         const fixedIncomes = await FixedIncome.findAll({ 
-            include: Category 
+            attributes: [
+                'id', 'title', 'description', 'amount', 'currency', 
+                'startDate', 'endDate', 'createdAt', 'updatedAt', 
+                'categoryId', 'profitgoalId', 'userId', 'superadminId'
+            ],
+            include: {
+                model: Category,
+                attributes: ['id', 'name'] // Include only necessary fields from Category
+            }
         });
-        
-        // Log data before sending response
+
         console.log('Fetched Fixed Incomes:', fixedIncomes);
 
-        // Return the response with the fetched data
         return res.status(200).json({ data: fixedIncomes });
     } catch (error) {
-        // Log more detailed error message
         console.error('Error fetching fixed incomes:', error.message);
         console.error('Error stack:', error.stack);
 
-        // Send detailed error message to the client
         return res.status(500).json({ error: 'Internal server error.', details: error.message });
     }
 };
+
 
 
 // Delete a Fixed Income by ID
