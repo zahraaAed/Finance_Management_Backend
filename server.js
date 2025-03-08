@@ -19,18 +19,12 @@ dotenv.config();
 const app = express();
 
 // Port
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4001;
 sequelize.sync();
 
 
-// Sync the database models
-db.sync({ alter: true })
-  .then(() => {
-    console.log('Database schema synchronized!');
-  })
-  .catch((err) => {
-    console.error('Error syncing database schema:', err);
-  });
+
+  
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -50,6 +44,16 @@ app.use('/api/fixedExpense', fixedexpenseRoute);
 app.use ('/api/recuringExpense', recurringexpenseRoute);
 app.use('/api/report', reportRoute);
 app.use('/api/category', Category);
+
+
+// Sync the database models
+db.sync({ alter: true })
+  .then(() => {
+    console.log('Database schema synchronized!');
+  })
+  .catch((err) => {
+    console.error('Error syncing database schema:', err);
+  });
 
 // Server
 app.listen(port, () => {

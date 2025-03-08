@@ -3,20 +3,47 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // 1 - Add user (admin/superadmin)
+
+
 exports.createUser = async (req, res) => {
-  const { email, userName,password, role = "admin" } = req.body;
+  const { email, userName, password, role = "admin" } = req.body;
+  const authHeader = req.headers.authorization;
 
   try {
+    console.log("🔍 Request received to create user:", { email, userName, role });
+
+    // Check if Authorization header exists
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(403).json({ message: "Access denied. No token provided." });
+    }
+
+    // Extract and verify the token
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Ensure the requester is a superadmin
+    if (decoded.role !== "superadmin") {
+      return res.status(403).json({ message: "Access denied. Only superadmins can create admins." });
+    }
+
+    console.log("✅ User is authorized. Proceeding with creation...");
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("🔑 Password hashed successfully.");
+
+    // Create new admin user
     const newAdmin = await User.create({
       email,
-      password: await bcrypt.hash(password, 15),
+      password: hashedPassword,
       userName,
       role,
     });
 
+    console.log("🎉 Admin created successfully:", newAdmin);
     res.status(201).json(newAdmin);
   } catch (error) {
-    console.error(error);
+    console.error("🚨 Error creating user:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
