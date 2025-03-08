@@ -25,33 +25,41 @@ const addCategory = async (req, res) => {
 };
 
 
-// Get all categories
+// Get all categories (excluding soft-deleted ones)
 const getAllCategories = async (req, res) => {
     try {
-        const categories = await Category.findAll();
-        res.json(categories);
+        const categories = await Category.findAll({
+            where: { isDeleted: false }  // Only fetch categories that are not deleted
+        });
+
+        res.status(200).json(categories);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ message: 'Error fetching categories', error: error.message });
     }
 };
 
 
-// Delete a category by ID
+
+// safe  Delete a category by ID
 const deleteCategory = async (req, res) => {
     try {
         const { id } = req.params;
         const category = await Category.findByPk(id);
-        
+
         if (!category) {
             return res.status(404).json({ message: 'Category not found' });
         }
 
-        await category.destroy();
-        res.status(200).json({ message: 'Category deleted successfully' });
+        // Soft delete by setting isDeleted to true
+        category.isDeleted = true;
+        await category.save();
+
+        res.status(200).json({ message: 'Category deleted successfully (soft delete)' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting category', error: error.message });
     }
 };
+
 
 
 // Update only the category name
@@ -60,13 +68,18 @@ const updateCategoryName = async (req, res) => {
         const { id } = req.params;
         const { name } = req.body;
 
-        // Check if the category exists
-        const category = await Category.findById(id);
+        // Check if name is provided
+        if (!name) {
+            return res.status(400).json({ message: "Category name is required" });
+        }
+
+        // Find the category by primary key
+        const category = await Category.findByPk(id);
         if (!category) {
             return res.status(404).json({ message: "Category not found" });
         }
 
-        // Update the name
+        // Update the category name
         category.name = name;
         await category.save();
 
@@ -76,7 +89,7 @@ const updateCategoryName = async (req, res) => {
         });
     } catch (error) {
         console.error("Error updating category name:", error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ message: "Internal server error", error: error.message });
     }
 };
 

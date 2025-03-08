@@ -7,7 +7,11 @@ const Category = db.define('category', {
         allowNull: false,
         
     },
+    isDeleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,  // Default value is false to keep existing data unchanged
+        allowNull: false
+    }
 });
-Category.sync({ alter: true });
 module.exports = Category;
 
