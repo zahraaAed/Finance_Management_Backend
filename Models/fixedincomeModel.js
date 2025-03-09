@@ -32,6 +32,11 @@ const FixedIncome = db.define('FixedIncome', {
                isAfter: Sequelize.col('startDate'), // Now Sequelize is properly defined
            }
         },
+        isDeleted: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,  // Default value is false to keep existing data unchanged
+            allowNull: false
+        }
 });
 
 FixedIncome.belongsTo(Category);

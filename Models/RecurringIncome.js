@@ -35,6 +35,11 @@ const RecurringIncome = db.define('RecurringIncome', {
             this.setDataValue('endDate', new Date(value));  // Ensure it's stored as a Date
         },
     },
+    isDeleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,  // Default value is false to keep existing data unchanged
+        allowNull: false
+    }
 });
 
 // Define relationship
