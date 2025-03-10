@@ -4,7 +4,8 @@ const {
     getAdminById, 
     getAdmins, 
     getAllAdmins,
-    createUser, 
+    createUser,
+    logout, 
  
 } = require("../Controllers/userController.js");
 const { verifyToken, isSuperAdmin } = require("../Middleware/auth.js");
@@ -15,6 +16,7 @@ router.get("/users", getAllAdmins);
 router.get('/admin/:id', getAdminById);
 router.delete("/delete-admin/:id", verifyToken, isSuperAdmin, deleteAdmin);
 router.get('/admin', getAdmins);
+router.post('/logout', logout);
 
 
 module.exports = router;

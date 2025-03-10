@@ -31,6 +31,7 @@ const getAllProfitGoals = async (req, res) => {
       const averageMonthlyProfit = averageProfitPerMonth(profitgoal.targetAmount, 12); // assuming a 12-month target
 
       return {
+        id: profitgoal.id,
         goalName: profitgoal.goalName,
         targetAmount: profitgoal.targetAmount,
         actualProfit: profitgoal.actualProfit,

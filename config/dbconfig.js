@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const sequelize = new Sequelize('Finance_Management', 'root', '', {
+const sequelize = new Sequelize('Finance-database', 'root', '', {
   dialect: 'mysql',
   host: 'localhost',
   port:3306,

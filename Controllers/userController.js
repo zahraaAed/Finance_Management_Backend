@@ -160,3 +160,23 @@ exports.signInUser = async (req, res) => {
     res.status(500).json({ message: "Sign in error" });
   }
 };
+
+exports.logout = async (req, res) => {
+  try {
+    // Assuming JWT is sent in the Authorization header
+    const authHeader = req.headers.authorization;
+    
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const token = authHeader.split(" ")[1]; // Extract token
+    console.log("Logging out, invalidating token:", token); // Debugging
+
+    res.status(200).json({ message: "Admin successfully logged out" });
+
+  } catch (error) {
+    console.error("Logout Error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
