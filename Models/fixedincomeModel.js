@@ -23,11 +23,11 @@ const FixedIncome = db.define('FixedIncome', {
     },
      startDate: {
            type: DataTypes.DATE,
-           allowNull: false,
+           allowNull: true,
        },
        endDate: {
            type: DataTypes.DATE,
-           allowNull: false,
+           allowNull: true,
            validate: {
                isAfter: Sequelize.col('startDate'), // Now Sequelize is properly defined
            }
